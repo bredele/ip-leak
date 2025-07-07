@@ -1,0 +1,49 @@
+{
+  "name": "ip-leak",
+  "version": "1.0.0",
+  "description": "Reveals the real IP address of a user using WebRTC, even behind some proxies or VPNs.",
+  "main": "./dist/cjs/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "cmplr --type-check",
+    "test": "node lib/test-server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bredele/ip-leak.git"
+  },
+  "keywords": [
+    "IP",
+    "leak",
+    "real",
+    "vps",
+    "proxy",
+    "webrtc"
+  ],
+  "author": "Olivier Wietrich",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bredele/ip-leak/issues"
+  },
+  "homepage": "https://github.com/bredele/ip-leak#readme",
+  "devDependencies": {
+    "@types/node": "^24.0.10",
+    "cmplr": "^1.1.0"
+  },
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./test-server": {
+      "import": "./dist/esm/test-server.js",
+      "require": "./dist/cjs/test-server.js",
+      "types": "./dist/types/test-server.d.ts"
+    }
+  }
+}
