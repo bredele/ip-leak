@@ -95,6 +95,13 @@
         </div>
 
         <div class="test-section">
+            <h2>Configuration Tests</h2>
+            <button onclick="testCustomTimeout()">Test Custom Timeout (10s)</button>
+            <button onclick="testCustomServers()" style="margin-left: 10px;">Test Custom STUN Servers</button>
+            <div id="configResults"></div>
+        </div>
+
+        <div class="test-section">
             <h2>Browser Information</h2>
             <div id="browserInfo"></div>
         </div>
@@ -107,6 +114,8 @@
         window.getIp = getIp;
         window.testIpLeak = testIpLeak;
         window.runMultipleTests = runMultipleTests;
+        window.testCustomTimeout = testCustomTimeout;
+        window.testCustomServers = testCustomServers;
 
         // Test single IP detection
         async function testIpLeak() {
@@ -194,6 +203,59 @@
             
             results.innerHTML = html;
             button.disabled = false;
+        }
+
+        // Test custom timeout
+        async function testCustomTimeout() {
+            const results = document.getElementById('configResults');
+            results.innerHTML = '<div class="result loading">Testing custom timeout (10 seconds)...</div>';
+            
+            try {
+                const startTime = Date.now();
+                const ip = await getIp({ timeout: 10000 });
+                const endTime = Date.now();
+                const duration = endTime - startTime;
+                
+                results.innerHTML = `<div class="result success">
+                    <strong>Custom Timeout Success!</strong><br>
+                    IP: ${ip}<br>
+                    Duration: ${duration}ms (timeout was 10,000ms)
+                </div>`;
+            } catch (error) {
+                results.innerHTML = `<div class="result error">
+                    <strong>Custom Timeout Error:</strong> ${error.message}
+                </div>`;
+            }
+        }
+
+        // Test custom STUN servers
+        async function testCustomServers() {
+            const results = document.getElementById('configResults');
+            results.innerHTML = '<div class="result loading">Testing custom STUN servers...</div>';
+            
+            try {
+                const startTime = Date.now();
+                const ip = await getIp({ 
+                    iceServers: [
+                        'stun:stun.l.google.com:19302',
+                        'stun:stun3.l.google.com:19302' // Different server mix
+                    ],
+                    timeout: 5000
+                });
+                const endTime = Date.now();
+                const duration = endTime - startTime;
+                
+                results.innerHTML = `<div class="result success">
+                    <strong>Custom STUN Servers Success!</strong><br>
+                    IP: ${ip}<br>
+                    Duration: ${duration}ms<br>
+                    Used: Google STUN servers (custom mix)
+                </div>`;
+            } catch (error) {
+                results.innerHTML = `<div class="result error">
+                    <strong>Custom STUN Servers Error:</strong> ${error.message}
+                </div>`;
+            }
         }
 
         // Display browser information

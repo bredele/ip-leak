@@ -17,4 +17,18 @@ import getIp from "ip-leak";
 
 await getIp();
 // => 17.5.7.3
+
+// Set a custom timeout (in milliseconds)
+await getIp({ timeout: 10000 }); // 10 seconds
+
+// Use your own STUN servers
+await getIp({
+  iceServers: ["stun:custom-server.com:3478", "stun:backup-server.com:3478"],
+});
+
+// Custom servers and timeout
+await getIp({
+  iceServers: ["stun:corporate-server.internal:3478"],
+  timeout: 3000,
+});
 ```
